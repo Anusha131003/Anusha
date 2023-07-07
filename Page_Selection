@@ -1,0 +1,70 @@
+import tkinter as tk
+
+def cal_strength(webpages_list):
+    result = []
+    for i in webpages_list:
+        strength = 0
+        for j in i:
+            if j in query:
+                strength += (n - i.index(j)) * (n - query.index(j))
+        result.append(strength)
+    return result
+
+def display_result():
+    global webpages_list, query, n
+
+    # Get the user inputs from the entry fields
+    n = int(n_entry.get())
+    no_webpages = int(no_webpages_entry.get())
+    webpages_list = []
+    for i in range(no_webpages):
+        l1 = list(map(str, webpages_entry[i].get().strip().split()))
+        webpages_list.append(l1)
+    query = list(map(str, query_entry.get().strip().split()))
+
+    strengths = cal_strength(webpages_list)
+
+    max_num = max(strengths)
+    max_ind = strengths.index(max_num)
+
+    result_label.config(text="Page {} will get displayed".format(max_ind + 1))
+
+root = tk.Tk()
+root.title("Webpage Selector")
+root.geometry("1500x700")
+root.configure(background="light green")
+
+welcome_label = tk.Label(root,text="welcome to webpage selector",font=('Times',28))
+welcome_label.pack()
+
+n_label = tk.Label(root, text="input N",font=('Times',28))
+n_label.pack()
+n_entry = tk.Entry(root)
+n_entry.pack()
+
+no_webpages_label = tk.Label(root, text="No. of webpages:",font=('Times',28))
+no_webpages_label.pack()
+no_webpages_entry = tk.Entry(root)
+no_webpages_entry.pack()
+
+webpages_label = tk.Label(root, text="Enter the keywords for each webpage:",font=('Times',28))
+webpages_label.pack()
+
+webpages_entry = []
+for i in range(5):
+    entry = tk.Entry(root)
+    webpages_entry.append(entry)
+    entry.pack()
+
+query_label = tk.Label(root, text="Enter the query keywords:",font=('Times',28))
+query_label.pack()
+query_entry = tk.Entry(root)
+query_entry.pack()
+
+calculate_button = tk.Button(root, text="Calculate", command=display_result,font=('Times',28))
+calculate_button.pack()
+
+result_label = tk.Label(root, text="")
+result_label.pack()
+
+root.mainloop()
